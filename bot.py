@@ -25,13 +25,7 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-@client.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
 
-@client.command()
-async def clear(ctx, amount=5):
-    await ctx.channel.purge(limit=amount)
 
 
 client.run(config.bot_token)
