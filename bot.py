@@ -4,6 +4,15 @@ import discord
 from discord.ext import commands
 
 client =  commands.Bot(command_prefix='.')
+client.created_channels = {}
+
+def log_temp_channel(guild, member, channel):
+    if not guild.id in client.created_channels:
+        client.created_channels[guild.id]['active'] = set()
+        client.created_channels[guild.id]['member'] = set()
+    client.created_channels[guild.id]['active'].add(channel)
+    client.created_channels[guild.id]['member'].add(member)
+client.log_temp_channel = log_temp_channel
 
 @client.command()
 async def load(ctx, extension):

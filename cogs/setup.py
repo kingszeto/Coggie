@@ -7,7 +7,9 @@ class Setup(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Bot is ready')
+        for guild in self.client.guilds:
+            self.client.created_channels[guild.id] = set()
+        print("Bot is loaded")
 
 def setup(client):
     client.add_cog(Setup(client))
