@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+from .CoggieLibs import CoggieVoice
 class GameCommands(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -17,6 +17,7 @@ class GameCommands(commands.Cog):
             new_channel = await cw_guild.create_voice_channel(hypo_channel_name, user_limit=limit)
             await ctx.author.move_to(new_channel)
             await ctx.send("Lobby Created! The channel will disappear once everyone leaves. Have fun :)")
+            self.client.log_temp_channel(cw_guild, CoggieVoice(ctx.author, new_channel))
         else:
             "Something's wrong... probably on my end cause my human creator really sucks at programming :("
 
