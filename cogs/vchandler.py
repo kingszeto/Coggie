@@ -8,7 +8,7 @@ def checkInCogVoice(channel: discord.VoiceChannel, created_channels: set()):
         if channel in cogvoice.channels:
             return cogvoice
     return
-
+    
 class VCHandler(commands.Cog):
     
     def __init__(self, client):
@@ -27,7 +27,7 @@ class VCHandler(commands.Cog):
             ### delete the VC LinkedList ###
                 head = cv.channels
                 current = cv.channels
-                while current:
+                while head:
                     current = current.next
                     await head.voice_channel.delete()
                     head = current
@@ -35,9 +35,16 @@ class VCHandler(commands.Cog):
         
         # separate function to add teams
         if after.channel and after.channel.name == 'Team Channel Creator':
-            new_channel = await guild.create_voice_channel(hypo_channel_name)
-            await member.move_to(new_channel)
-            self.client.log_temp_channel(guild, CoggieVoice(member, new_channel))
+            # if it's in a category, make the new channel under the category section, else do the same thing but
+            # else do the same thing but not in a category section
+            if after.channel.category:
+                new_channel = await after.channel.category.create_voice_channel(hypo_channel_name)
+                await member.move_to(new_channel)
+                self.client.log_temp_channel(guild, CoggieVoice(member, new_channel))
+            else:
+                new_channel = await guild.create_voice_channel(hypo_channel_name)
+                await member.move_to(new_channel)
+                self.client.log_temp_channel(guild, CoggieVoice(member, new_channel))
 
 def setup(client):
     client.add_cog(VCHandler(client))
