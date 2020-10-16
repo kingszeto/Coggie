@@ -26,11 +26,14 @@ class VCHandler(commands.Cog):
                 self.client.created_channels[guild.id].remove(cv)
             ### delete the VC LinkedList ###
                 head = cv.channels
+                category = cv.channels.voice_channel.category
                 current = cv.channels
                 while head:
                     current = current.next
                     await head.voice_channel.delete()
                     head = current
+                if category and not "Creator" in category.name:
+                    await category.delete()
             ### end of delete the VC LinkedList ###
         
         # separate function to add teams

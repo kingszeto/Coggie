@@ -30,9 +30,16 @@ class VoiceChannelLL():
 
 # wrapper for VoiceChannelLL but honestly it's becoming spaghetti code
 class CoggieVoice():
-    def __init__(self, creator: discord.Member, channels: VoiceChannelLL):
+    def __init__(self, creator: discord.Member, channels: VoiceChannelLL, key=None):
         self.creator = creator
-        self.channels = VoiceChannelLL(channels)
+        self.key = key
+        if isinstance(channels, discord.VoiceChannel):
+            self.channels = VoiceChannelLL(channels)
+        elif isinstance(channels, VoiceChannelLL):
+            self.channels = channels
+        else:
+            raise TypeError("Invalid assignment to CoggieVoice")
+
 
     def has_members(self):
         return not self.channels.empty()

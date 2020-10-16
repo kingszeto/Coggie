@@ -10,7 +10,15 @@ def log_temp_channel(guild, cv):
     if not guild.id in client.created_channels:
         client.created_channels[guild.id] = set()
     client.created_channels[guild.id].add(cv)
+
+def get_cogvoice_key(guild, key: str):
+    for coggie_voice in client.created_channels[guild.id]:
+        if coggie_voice.key == key:
+            return coggie_voice
+client.get_cogvoice_key = get_cogvoice_key
 client.log_temp_channel = log_temp_channel
+
+
 
 @client.command()
 async def load(ctx, extension):
@@ -31,7 +39,6 @@ async def on_member_remove(member):
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
-
 
 client.run(config.bot_token)
 
