@@ -1,5 +1,6 @@
 import discord
 from random import randint
+from random import choice
 from discord.ext import commands
 from .CoggieLibs import CoggieVoice
 from .CoggieLibs import VoiceChannelLL
@@ -40,8 +41,8 @@ class OrgCommands(commands.Cog):
         await ctx.author.move_to(cv.channels.voice_channel)
 
     # arrival should be a CoggieVoice.key
-    @commands.command()
-    async def all_split(self, ctx, departure, arrive_key, role=None):
+    @commands.command(aliases=["generalsplit", "gensplit", "splitall", "split_all"])
+    async def _split(self, ctx, departure, arrive_key, role=None):
         if not ctx.author.guild_permissions.manage_channels:
             raise commands.MissingPermissions([discord.Permissions.manage_channels])
         guild = ctx.guild
@@ -85,37 +86,10 @@ class OrgCommands(commands.Cog):
             current = current.next
             if not current:
                 current = arrival.channels
-    
-    # # fix dis, but carl-bot maybe a better way to do role assignments
-    # @commands.command()
-    # async def make_mass_groups(self, ctx, *args):
-    #     await ctx.send("Called")
-    #     i = 0
-    #     role_name = []
-    #     while i < len(args):
-    #         if not(args[i][0] == '<' and args[i][-1] == '>'):
-    #             role_name.append(args[i])
-    #             i += 1
-    #         else: 
-    #             role = await ctx.guild.create_role(name=" ".join(role_name))
-    #             print(args[i])
-    #             while args[i][0] == '<' and args[i][-1] == '>':
-    #                 member = int(args[i].strip("<!@>"))
-    #                 for m in ctx.guild.members:
-    #                     if m.id == member:
-    #                         await member.add_roles(role)
-    #                         break
-    #                 i += 1
-    #             role_name = []
-    #     await ctx.send("Done")
-
-            
-    
-        
-        
-    # @commands.Cog.listener()
-    # async def on_command_error(self, ctx, error):
-    #     await ctx.send("You don't have permissions to do that.")
+                
+        # @commands.Cog.listener()
+        # async def on_command_error(self, ctx, error):
+        #     await ctx.send("You don't have permissions to do that.")
 
 def setup(client):
     client.add_cog(OrgCommands(client))
