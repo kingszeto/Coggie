@@ -19,7 +19,7 @@ class VCHandler(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         guild = member.guild
-        hypo_channel_name = member.display_name + '\'s Team Channel'
+        hypo_channel_name = member.display_name + '\'s Room'
         if before.channel:
             cv = checkInCogVoice(before.channel, self.client.created_channels[guild.id])
             if cv and not cv.has_members():
@@ -37,7 +37,7 @@ class VCHandler(commands.Cog):
             ### end of delete the VC LinkedList ###
         
         # separate function to add teams
-        if after.channel and after.channel.name == 'Team Channel Creator':
+        if after.channel and 'Creator' in after.channel.name:
             # if it's in a category, make the new channel under the category section, else do the same thing but
             # else do the same thing but not in a category section
             if after.channel.category:
